@@ -8,7 +8,7 @@ const CategoriesLayout = ({ children }: CategoryLayoutProps) => {
   return (
     <>
       <div className="mb-5 flex items-center justify-between">
-        <h2 className="font-sans text-xl font-semibold text-gray-900">
+        <h2 className="font-sans text-2xl font-semibold text-gray-900">
           Categories
         </h2>
 
