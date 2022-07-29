@@ -66,7 +66,10 @@ const CategoriesList = ({ categories }) => {
               type="button"
               title={'Delete category ' + category.id}
               className="ml-1 rounded bg-red-500 py-1 px-3 hover:bg-red-600"
-              onClick={() => onDeleteClick(category.id)}
+              onClick={(e) => {
+                e.stopPropagation()
+                onDeleteClick(category.id)
+              }}
             >
               Delete
             </button>

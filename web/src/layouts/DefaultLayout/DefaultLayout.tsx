@@ -91,7 +91,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
       {/* End Sidebar */}
 
       {/* Start Main */}
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col justify-around">
         <nav className="sticky top-0 flex w-full bg-white p-2 shadow-md">
           <button
             className="text-2xl text-gray-900"
@@ -101,7 +101,19 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
           </button>
         </nav>
 
-        <main className="p-5">{children}</main>
+        <main className="flex flex-1 flex-col p-5">{children}</main>
+
+        <footer className="flex justify-center py-2 text-center font-sans text-sm font-medium text-gray-900">
+          Made with <i className="bi bi-heart-fill mx-1 text-red-500"></i> by{' '}
+          <a
+            href="https://github.com/DeVoresyah"
+            target="_blank"
+            rel="noreferrer"
+            className="ml-1 underline"
+          >
+            @DeVoresyah
+          </a>
+        </footer>
       </div>
       {/* End Main */}
     </div>
