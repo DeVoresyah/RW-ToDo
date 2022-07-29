@@ -1,14 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import Tasks from './Tasks'
+import DefaultLayout from './DefaultLayout'
 
 //   Improve this test with help from the Redwood Testing Doc:
-//    https://redwoodjs.com/docs/testing#testing-components
+//   https://redwoodjs.com/docs/testing#testing-pages-layouts
 
-describe('Tasks', () => {
+describe('DefaultLayout', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<Tasks />)
+      render(<DefaultLayout />)
     }).not.toThrow()
   })
 })

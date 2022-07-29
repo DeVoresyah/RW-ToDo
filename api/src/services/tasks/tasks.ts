@@ -10,7 +10,7 @@ export const tasks: QueryResolvers['tasks'] = () => {
   return db.task.findMany()
 }
 
-export const tasksPage: QueryResolvers['tasksPage'] = async ({ page }) => {
+export const taskPage: QueryResolvers['taskPage'] = async ({ page }) => {
   const offset = ((page ?? 1) - 1) * 6
 
   return {
