@@ -45,16 +45,7 @@ const NewCategory = () => {
     })
   }
 
-  return (
-    <div className="rw-segment">
-      <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">New Category</h2>
-      </header>
-      <div className="rw-segment-main">
-        <CategoryForm onSave={onSave} loading={loading} error={error} />
-      </div>
-    </div>
-  )
+  return <CategoryForm onSave={onSave} loading={loading} error={error} />
 }
 
 export default NewCategory
