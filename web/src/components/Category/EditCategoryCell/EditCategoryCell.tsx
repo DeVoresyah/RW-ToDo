@@ -55,12 +55,13 @@ export const Success = ({ category }: CellSuccessProps<EditCategoryById>) => {
   }
 
   return (
-    <div className="rw-segment">
-      <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">
-          Edit Category {category.id}
+    <>
+      <div className="mb-5 flex items-center justify-between">
+        <h2 className="font-sans text-2xl font-semibold text-gray-900">
+          Edit Category &quot;{category.title}&quot;
         </h2>
-      </header>
+      </div>
+
       <div className="rw-segment-main">
         <CategoryForm
           category={category}
@@ -69,6 +70,6 @@ export const Success = ({ category }: CellSuccessProps<EditCategoryById>) => {
           loading={loading}
         />
       </div>
-    </div>
+    </>
   )
 }

@@ -101,7 +101,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
           </button>
         </nav>
 
-        <main className="flex flex-1 flex-col p-5">{children}</main>
+        <main className="flex flex-1 flex-col bg-gray-50 p-5">{children}</main>
 
         <footer className="flex justify-center py-2 text-center font-sans text-sm font-medium text-gray-900">
           Made with <i className="bi bi-heart-fill mx-1 text-red-500"></i> by{' '}

@@ -1,5 +1,7 @@
+import type { FindCategories } from 'types/graphql'
+
 import { navigate, routes } from '@redwoodjs/router'
-import { useMutation } from '@redwoodjs/web'
+import { useMutation, useQuery } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import TaskForm from 'src/components/Task/TaskForm'
@@ -12,7 +14,22 @@ const CREATE_TASK_MUTATION = gql`
   }
 `
 
+const GET_CATEGORIES_QUERY = gql`
+  query FindCategories {
+    categories {
+      id
+      title
+      slug
+      color
+      createdAt
+    }
+  }
+`
+
+export const Loading = () => <div>Loading...</div>
+
 const NewTask = () => {
+  const { data } = useQuery<FindCategories>(GET_CATEGORIES_QUERY)
   const [createTask, { loading, error }] = useMutation(CREATE_TASK_MUTATION, {
     onCompleted: () => {
       toast.success('Task created')
@@ -24,18 +41,26 @@ const NewTask = () => {
   })
 
   const onSave = (input) => {
-    createTask({ variables: { input } })
+    const dataToSend = {
+      title: input.title,
+      categoryId: input.category.id,
+      isComplete: input.isComplete,
+    }
+
+    createTask({
+      variables: { input: dataToSend },
+    })
   }
 
+  console.log('data categories =>', data?.categories)
+
   return (
-    <div className="rw-segment">
-      <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">New Task</h2>
-      </header>
-      <div className="rw-segment-main">
-        <TaskForm onSave={onSave} loading={loading} error={error} />
-      </div>
-    </div>
+    <TaskForm
+      onSave={onSave}
+      loading={loading}
+      error={error}
+      categories={data?.categories ?? []}
+    />
   )
 }
 

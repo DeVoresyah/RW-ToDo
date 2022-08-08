@@ -1,11 +1,6 @@
-import {
-  Form,
-  FormError,
-  FieldError,
-  Label,
-  TextField,
-  Submit,
-} from '@redwoodjs/forms'
+import { Form, FormError, Submit } from '@redwoodjs/forms'
+
+import Input from 'src/components/Input/Input'
 
 const CategoryForm = (props) => {
   const onSubmit = (data) => {
@@ -13,7 +8,7 @@ const CategoryForm = (props) => {
   }
 
   return (
-    <div className="rw-form-wrapper">
+    <div className="container mt-5 w-full rounded-lg bg-white p-5 shadow-md md:mx-auto md:w-6/12 lg:w-8/12">
       <Form onSubmit={onSubmit} error={props.error}>
         <FormError
           error={props.error}
@@ -22,47 +17,30 @@ const CategoryForm = (props) => {
           listClassName="rw-form-error-list"
         />
 
-        <Label
-          name="title"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Title
-        </Label>
-
-        <TextField
+        <Input
           name="title"
           defaultValue={props.category?.title}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
           validation={{ required: true }}
+          labelText="Name"
+          containerClassName="mb-4"
         />
 
-        <FieldError name="title" className="rw-field-error" />
-
-        <Label
-          name="color"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Color
-        </Label>
-
-        <TextField
+        <Input
           name="color"
           defaultValue={props.category?.color}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
           validation={{ required: true }}
+          labelText="Category Color"
+          containerClassName="mb-4"
         />
 
-        <FieldError name="color" className="rw-field-error" />
-
-        <div className="rw-button-group">
-          <Submit disabled={props.loading} className="rw-button rw-button-blue">
-            Save
-          </Submit>
-        </div>
+        <Submit
+          disabled={props.loading}
+          className={`rounded-md bg-blue-500 py-2 px-4 text-sm font-medium text-white hover:bg-blue-600 ${
+            props.loading && 'bg-opacity-5'
+          }`}
+        >
+          Save
+        </Submit>
       </Form>
     </div>
   )
