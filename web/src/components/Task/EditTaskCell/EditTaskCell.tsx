@@ -62,19 +62,20 @@ export const Success = ({
   }
 
   return (
-    <div className="rw-segment">
-      <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">Edit Task {task.id}</h2>
-      </header>
-      <div className="rw-segment-main">
-        <TaskForm
-          task={task}
-          onSave={onSave}
-          error={error}
-          loading={loading}
-          categories={categories}
-        />
+    <>
+      <div className="mb-5 flex items-center justify-between">
+        <h2 className="font-sans text-2xl font-semibold text-gray-900">
+          Edit Task &quot;{task.title}&quot;
+        </h2>
       </div>
-    </div>
+
+      <TaskForm
+        task={task}
+        onSave={onSave}
+        error={error}
+        loading={loading}
+        categories={categories}
+      />
+    </>
   )
 }
