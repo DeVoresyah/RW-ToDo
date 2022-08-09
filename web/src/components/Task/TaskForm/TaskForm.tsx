@@ -6,7 +6,14 @@ import InputDropdown from 'src/components/InputDropdown/InputDropdown'
 
 const TaskForm = (props) => {
   const { categories } = props
-  const form = useForm()
+
+  const form = useForm({
+    defaultValues: {
+      category:
+        categories.find((category) => props.task?.categoryId === category.id) ??
+        null,
+    },
+  })
 
   const onSubmit = (data) => {
     props.onSave(data, props?.task?.id)

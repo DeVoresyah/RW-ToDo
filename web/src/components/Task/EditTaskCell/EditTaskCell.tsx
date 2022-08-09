@@ -16,6 +16,13 @@ export const QUERY = gql`
       createdAt
       categoryId
     }
+    categories {
+      id
+      title
+      slug
+      color
+      createdAt
+    }
   }
 `
 const UPDATE_TASK_MUTATION = gql`
@@ -36,7 +43,10 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div className="rw-cell-error">{error.message}</div>
 )
 
-export const Success = ({ task }: CellSuccessProps<EditTaskById>) => {
+export const Success = ({
+  task,
+  categories,
+}: CellSuccessProps<EditTaskById>) => {
   const [updateTask, { loading, error }] = useMutation(UPDATE_TASK_MUTATION, {
     onCompleted: () => {
       toast.success('Task updated')
@@ -57,7 +67,13 @@ export const Success = ({ task }: CellSuccessProps<EditTaskById>) => {
         <h2 className="rw-heading rw-heading-secondary">Edit Task {task.id}</h2>
       </header>
       <div className="rw-segment-main">
-        <TaskForm task={task} onSave={onSave} error={error} loading={loading} />
+        <TaskForm
+          task={task}
+          onSave={onSave}
+          error={error}
+          loading={loading}
+          categories={categories}
+        />
       </div>
     </div>
   )
