@@ -6,6 +6,22 @@ import type {
 
 import { db } from 'src/lib/db'
 
+export const dashboardStats: QueryResolvers['dashboardStats'] = async () => {
+  const totalTask = await db.task.count()
+  const tasksComplete = await db.task.findMany({
+    where: { isComplete: true },
+  })
+  const tasksIncomplete = await db.task.findMany({
+    where: { isComplete: false },
+  })
+
+  return {
+    totalTask,
+    totalTaskComplete: tasksComplete.length,
+    totalTaskIncomplete: tasksIncomplete.length,
+  }
+}
+
 export const tasks: QueryResolvers['tasks'] = () => {
   return db.task.findMany()
 }
