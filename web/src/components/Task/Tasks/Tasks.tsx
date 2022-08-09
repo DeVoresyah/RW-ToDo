@@ -1,4 +1,8 @@
-import { Link, routes } from '@redwoodjs/router'
+import { useState, useMemo } from 'react'
+
+import { PencilIcon, TrashIcon } from '@heroicons/react/solid'
+
+import { routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
@@ -12,32 +16,22 @@ const DELETE_TASK_MUTATION = gql`
   }
 `
 
-const MAX_STRING_LENGTH = 150
-
-const truncate = (text) => {
-  let output = text
-  if (text && text.length > MAX_STRING_LENGTH) {
-    output = output.substring(0, MAX_STRING_LENGTH) + '...'
+const TOGGLE_COMPLETE_MUTATION = gql`
+  mutation ToggleCompleteMutation($id: String!, $isComplete: Boolean) {
+    updateTask(id: $id, input: { isComplete: $isComplete }) {
+      id
+      title
+      isComplete
+      createdAt
+      categoryId
+    }
   }
-  return output
-}
+`
 
-const timeTag = (datetime) => {
-  return (
-    datetime && (
-      <time dateTime={datetime} title={datetime}>
-        {new Date(datetime).toUTCString()}
-      </time>
-    )
-  )
-}
+const TasksList = ({ tasks }) => {
+  const [filters] = useState(['All', 'Complete', 'Incomplete'])
+  const [selectedFilter, setSelectedFilter] = useState<string>('All')
 
-const checkboxInputTag = (checked) => {
-  return <input type="checkbox" checked={checked} disabled />
-}
-
-const TasksList = ({ tasks, total }) => {
-  console.log('total =>', total)
   const [deleteTask] = useMutation(DELETE_TASK_MUTATION, {
     onCompleted: () => {
       toast.success('Task deleted')
@@ -45,12 +39,21 @@ const TasksList = ({ tasks, total }) => {
     onError: (error) => {
       toast.error(error.message)
     },
-    // This refetches the query on the list page. Read more about other ways to
-    // update the cache over here:
-    // https://www.apollographql.com/docs/react/data/mutations/#making-all-other-cache-updates
     refetchQueries: [{ query: QUERY }],
     awaitRefetchQueries: true,
   })
+  const [toggleComplete] = useMutation(TOGGLE_COMPLETE_MUTATION, {
+    onCompleted: () => {},
+    onError: (error) => {
+      toast.error(error.message)
+    },
+    refetchQueries: [{ query: QUERY }],
+    awaitRefetchQueries: true,
+  })
+
+  const onToggleComplete = (id, isComplete) => {
+    toggleComplete({ variables: { id, isComplete } })
+  }
 
   const onDeleteClick = (id) => {
     if (confirm('Are you sure you want to delete task ' + id + '?')) {
@@ -58,58 +61,74 @@ const TasksList = ({ tasks, total }) => {
     }
   }
 
+  const filteredTasks = useMemo(() => {
+    if (selectedFilter === 'Complete')
+      return tasks.filter((task) => task.isComplete)
+    if (selectedFilter === 'Incomplete')
+      return tasks.filter((task) => !task.isComplete)
+
+    return tasks
+  }, [selectedFilter, tasks])
+
   return (
-    <div className="rw-segment rw-table-wrapper-responsive">
-      <table className="rw-table">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Is complete</th>
-            <th>Created at</th>
-            <th>Category id</th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tasks.map((task) => (
-            <tr key={task.id}>
-              <td>{truncate(task.id)}</td>
-              <td>{truncate(task.title)}</td>
-              <td>{checkboxInputTag(task.isComplete)}</td>
-              <td>{timeTag(task.createdAt)}</td>
-              <td>{truncate(task.categoryId)}</td>
-              <td>
-                <nav className="rw-table-actions">
-                  <Link
-                    to={routes.task({ id: task.id })}
-                    title={'Show task ' + task.id + ' detail'}
-                    className="rw-button rw-button-small"
-                  >
-                    Show
-                  </Link>
-                  <Link
-                    to={routes.editTask({ id: task.id })}
-                    title={'Edit task ' + task.id}
-                    className="rw-button rw-button-small rw-button-blue"
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    type="button"
-                    title={'Delete task ' + task.id}
-                    className="rw-button rw-button-small rw-button-red"
-                    onClick={() => onDeleteClick(task.id)}
-                  >
-                    Delete
-                  </button>
-                </nav>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <>
+      <div className="mb-5 flex items-center">
+        {filters.map((filter, filterIdx) => (
+          <button
+            key={filterIdx}
+            className={`mr-2 rounded-full border border-blue-500 py-1 px-3 text-xs font-medium text-blue-500 ${
+              filter === selectedFilter && 'bg-blue-500 text-white'
+            }`}
+            onClick={() => setSelectedFilter(filter)}
+          >
+            {filter}
+          </button>
+        ))}
+      </div>
+
+      <div className="flex flex-col">
+        {filteredTasks.map((task, taskIdx) => (
+          <button
+            key={taskIdx}
+            className={`mb-3 flex h-auto w-full justify-between rounded-lg bg-white py-2 px-4 text-sm font-medium text-gray-900 shadow ${
+              task.isComplete && 'line-through'
+            }`}
+            onClick={() => {
+              onToggleComplete(task.id, !task.isComplete)
+            }}
+          >
+            <span>{task.title}</span>
+
+            <div className="flex">
+              <button
+                className="mr-px"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  navigate(routes.editTask({ id: task.id }))
+                }}
+              >
+                <PencilIcon
+                  className="h-5 w-5 text-gray-500"
+                  aria-hidden="true"
+                />
+              </button>
+              <button
+                className="ml-px"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onDeleteClick(task.id)
+                }}
+              >
+                <TrashIcon
+                  className="h-5 w-5 text-gray-500"
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
+          </button>
+        ))}
+      </div>
+    </>
   )
 }
 
