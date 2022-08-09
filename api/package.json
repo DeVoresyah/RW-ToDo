@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "@redwoodjs/api": "2.2.0",
-    "@redwoodjs/graphql-server": "2.2.0"
+    "@redwoodjs/graphql-server": "2.2.0",
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
     "prettier-plugin-prisma": "^4.1.0"
