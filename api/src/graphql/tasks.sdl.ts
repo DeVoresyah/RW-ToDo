@@ -13,7 +13,14 @@ export const schema = gql`
     total: Int!
   }
 
+  type DashboardStatistic {
+    totalTask: Int!
+    totalTaskComplete: Int!
+    totalTaskIncomplete: Int!
+  }
+
   type Query {
+    dashboardStats: DashboardStatistic @requireAuth
     taskPage(page: Int): TaskPage @requireAuth
     tasks: [Task!]! @requireAuth
     task(id: String!): Task @requireAuth
