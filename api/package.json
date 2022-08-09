@@ -5,5 +5,8 @@
   "dependencies": {
     "@redwoodjs/api": "2.2.0",
     "@redwoodjs/graphql-server": "2.2.0"
+  },
+  "devDependencies": {
+    "prettier-plugin-prisma": "^4.1.0"
   }
 }

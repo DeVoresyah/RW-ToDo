@@ -3554,6 +3554,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/prisma-fmt-wasm@npm:4.1.0-12.09f9659a3d73d5ed2aac8298e2856b8be910cd66":
+  version: 4.1.0-12.09f9659a3d73d5ed2aac8298e2856b8be910cd66
+  resolution: "@prisma/prisma-fmt-wasm@npm:4.1.0-12.09f9659a3d73d5ed2aac8298e2856b8be910cd66"
+  checksum: 6507eea93fc7437bc1456ae3cc7e9081bd17760faf48c22659d8aa91481f47e96a1efad665ebe4302c885c9007e41221a56bcd5b1cf6abe48b6e01dd410b4383
+  languageName: node
+  linkType: hard
+
 "@prisma/sdk@npm:3.15.2":
   version: 3.15.2
   resolution: "@prisma/sdk@npm:3.15.2"
@@ -7295,6 +7302,7 @@ __metadata:
   dependencies:
     "@redwoodjs/api": 2.2.0
     "@redwoodjs/graphql-server": 2.2.0
+    prettier-plugin-prisma: ^4.1.0
   languageName: unknown
   linkType: soft
 
@@ -19427,6 +19435,17 @@ __metadata:
   dependencies:
     fast-diff: ^1.1.2
   checksum: 81e0027d731b7b3697ccd2129470ed9913ecb111e4ec175a12f0fcfab0096516373bf0af2fef132af50cafb0a905b74ff57996d615f59512bb9ac7378fcc64ab
+  languageName: node
+  linkType: hard
+
+"prettier-plugin-prisma@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "prettier-plugin-prisma@npm:4.1.0"
+  dependencies:
+    "@prisma/prisma-fmt-wasm": 4.1.0-12.09f9659a3d73d5ed2aac8298e2856b8be910cd66
+  peerDependencies:
+    prettier: ">=2"
+  checksum: b49913c0e7c1dd5ecaa01e940ceb3bca74bb8a1826b0d33e2401ae5b924bdc48d923d9b08e47a97a551643c04712168c965e654cc3ac50230049dc5b78144d94
   languageName: node
   linkType: hard
 
