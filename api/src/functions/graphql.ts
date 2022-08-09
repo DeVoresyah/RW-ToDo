@@ -11,6 +11,9 @@ export const handler = createGraphQLHandler({
   directives,
   sdls,
   services,
+  cors: {
+    origin: ['https://demo-rw-todo.vercel.app/', 'localhost'],
+  },
   onException: () => {
     // Disconnect from your database with an unhandled exception.
     db.$disconnect()
