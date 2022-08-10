@@ -12,12 +12,12 @@ export const QUERY = gql`
       slug
       color
       createdAt
-    }
-    tasks {
-      title
-      isComplete
-      categoryId
-      id
+      tasks {
+        title
+        isComplete
+        categoryId
+        id
+      }
     }
   }
 `
@@ -30,9 +30,6 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div className="rw-cell-error">{error.message}</div>
 )
 
-export const Success = ({
-  category,
-  tasks,
-}: CellSuccessProps<FindCategoryById>) => {
-  return <Category category={category} tasks={tasks} />
+export const Success = ({ category }: CellSuccessProps<FindCategoryById>) => {
+  return <Category category={category} tasks={category.tasks} />
 }
