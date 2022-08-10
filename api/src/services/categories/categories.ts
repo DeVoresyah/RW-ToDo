@@ -4,6 +4,8 @@ import type {
   CategoryResolvers,
 } from 'types/graphql'
 
+import { validate } from '@redwoodjs/api'
+
 import { db } from 'src/lib/db'
 
 export const categories: QueryResolvers['categories'] = () => {
@@ -19,6 +21,13 @@ export const category: QueryResolvers['category'] = ({ id }) => {
 export const createCategory: MutationResolvers['createCategory'] = ({
   input,
 }) => {
+  validate(input.color, {
+    format: {
+      pattern: /^#(?:[0-9a-fA-F]{3}){1,2}$/,
+      message: 'Color must be hex code',
+    },
+  })
+
   return db.category.create({
     data: input,
   })
@@ -28,6 +37,13 @@ export const updateCategory: MutationResolvers['updateCategory'] = ({
   id,
   input,
 }) => {
+  validate(input.color, {
+    format: {
+      pattern: /^#(?:[0-9a-fA-F]{3}){1,2}$/,
+      message: 'Color must be hex code',
+    },
+  })
+
   return db.category.update({
     data: input,
     where: { id },

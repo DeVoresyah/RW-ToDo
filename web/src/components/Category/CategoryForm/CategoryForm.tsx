@@ -12,9 +12,9 @@ const CategoryForm = (props) => {
       <Form onSubmit={onSubmit} error={props.error}>
         <FormError
           error={props.error}
-          wrapperClassName="rw-form-error-wrapper"
-          titleClassName="rw-form-error-title"
-          listClassName="rw-form-error-list"
+          wrapperClassName="mb-5"
+          titleClassName="hidden"
+          listClassName="text-sm font-medium text-red-500"
         />
 
         <Input
